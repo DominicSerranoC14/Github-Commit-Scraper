@@ -4,6 +4,7 @@ const { load } = require('cheerio');
 const fetch = require('node-fetch');
 const { Router } = require('express');
 const router = Router();
+const { splicePinnedProject } = require('./spliceData');
 /////////////////////////////////////////
 
 let userInfo = {};
@@ -28,6 +29,17 @@ router.get('*', (req, res) => {
         const $ = load(text);
         //Grap the commit data on the page
         userInfo.commits = $($('.inner').children('.text-emphasized')[0]).text();
+
+        let array = [];
+
+        $('.js-repo').each((i, each) => {
+          let el = {};
+          el.title = each.attribs.title;
+          array.push(el);
+        });
+
+        console.log("Test array", array);
+
     });
   res.render('index.pug', {userInfo});
 });
