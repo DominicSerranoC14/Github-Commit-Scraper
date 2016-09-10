@@ -1,19 +1,38 @@
 'use strict';
 
+
 /////////////////////////////////////////
 //Function that grabs each pinned repo from the github page
-module.exports.splicePinnedProject = ($projectEl) => {
-
+let splicePinnedTitle = ($projectEl) => {
   let array = [];
-  let each = {};
 
-  //Grab each pinned project title and push to array
-  projectEl.each( (i, each) => {
-    // each.title = each.projects[0].attribs.title;
-    console.log("000000000000000", each);
-    array.push(each);
-  })
+  $projectEl.find('.js-repo').each((i, each) => {
+    let el = {};
+    el.title = each.attribs.title;
+    el.order = i;
+    array.push(el);
+  });
 
   return array;
 };
 /////////////////////////////////////////
+
+
+/////////////////////////////////////////
+//Function that grabs each pinned repo from the github page
+let splicePinnedUrl = ($projectEl) => {
+  let array = [];
+
+  $projectEl.children('a.pinned-repo-link').each((i, each) => {
+    let el = {};
+    el.href = `https//:github.com${each.attribs.href}`;
+    el.order = i;
+    array.push(el);
+  });
+
+  return array;
+};
+/////////////////////////////////////////
+
+
+module.exports = { splicePinnedTitle, splicePinnedUrl };

@@ -4,7 +4,7 @@ const { load } = require('cheerio');
 const fetch = require('node-fetch');
 const { Router } = require('express');
 const router = Router();
-const { splicePinnedProject } = require('./spliceData');
+const { splicePinnedTitle, splicePinnedUrl } = require('./spliceData');
 /////////////////////////////////////////
 
 let userInfo = {};
@@ -12,7 +12,8 @@ let userInfo = {};
 //Use post with form request a users github info with a front end console
 /////////////////////////////////////////
 //Use npm-fetch to scrape a github account
-router.get('*', (req, res) => {
+router.get('*', (req, res, next) => {
+
   //Store the github user name here
   let userPath = req._parsedUrl.path;
   //Store the duration of time for commits usage
@@ -29,19 +30,13 @@ router.get('*', (req, res) => {
         const $ = load(text);
         //Grap the commit data on the page
         userInfo.commits = $($('.inner').children('.text-emphasized')[0]).text();
-
-        let array = [];
-
-        $('.js-repo').each((i, each) => {
-          let el = {};
-          el.title = each.attribs.title;
-          array.push(el);
-        });
-
-        console.log("Test array", array);
-
+        //Return an array with all of the pinned repo titles and links
+        userInfo.projectTitleList = splicePinnedTitle($('.pinned-repo-list-item'));
+        userInfo.projectUrlList = splicePinnedUrl($('.pinned-repo-list-item'));
+    }).then(() => {
+      //Render the index.pug in a promise to insure data is returned  
+      res.render('index.pug', {userInfo});
     });
-  res.render('index.pug', {userInfo});
 });
 /////////////////////////////////////////
 
