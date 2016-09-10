@@ -26,13 +26,17 @@ router.get('*', (req, res, next) => {
         //Convert the res to text
         return res.text();
     }).then(function(text) {
+
         //Load the body of the page into a const
         const $ = load(text);
+
         //Grap the commit data on the page
         userInfo.commits = $($('.inner').children('.text-emphasized')[0]).text();
+
         //Return an array with all of the pinned repo titles and links
         userInfo.projectTitleList = splicePinnedTitle($('.pinned-repo-list-item'));
         userInfo.projectUrlList = splicePinnedUrl($('.pinned-repo-list-item'));
+        
     }).then(() => {
       //Render the index.pug in a promise to insure data is returned
       res.render('index.pug', {userInfo});
