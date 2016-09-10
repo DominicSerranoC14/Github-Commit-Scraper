@@ -1,2 +1,17 @@
 p Time span of commits: #{userInfo.timeSpan}
 p Number of commits: #{userInfo.commits}
+
+a(href=userInfo.projectUrlList[0].href)
+  p #{userInfo.projectTitleList[0].title}
+
+a(href=userInfo.projectUrlList[1].href)
+  p #{userInfo.projectTitleList[1].title}
+
+a(href=userInfo.projectUrlList[2].href)
+  p #{userInfo.projectTitleList[2].title}
+
+a(href=userInfo.projectUrlList[3].href)
+  p #{userInfo.projectTitleList[3].title}
+
+a(href=userInfo.projectUrlList[4].href)
+  p #{userInfo.projectTitleList[4].title}
