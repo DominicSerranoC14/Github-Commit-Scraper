@@ -34,7 +34,7 @@ router.get('*', (req, res, next) => {
         userInfo.projectTitleList = splicePinnedTitle($('.pinned-repo-list-item'));
         userInfo.projectUrlList = splicePinnedUrl($('.pinned-repo-list-item'));
     }).then(() => {
-      //Render the index.pug in a promise to insure data is returned  
+      //Render the index.pug in a promise to insure data is returned
       res.render('index.pug', {userInfo});
     });
 });
